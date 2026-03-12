@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>MT Shop – Sản phẩm</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>🛒 MT Shop</h1>
+  </header>
+
+  <main class="container">
+    <div id="products" class="products"></div>
+  </main>
+
+  <script>
+    async function loadProducts() {
+      const res = await fetch("/.netlify/functions/getProducts");
+      const data = await res.json();
+
+      const box = document.getElementById("products");
+      box.innerHTML = "";
+
+      data.forEach(p => {
+        box.innerHTML += `
+          <div class="card">
+            <img src="${p.image}" alt="${p.name}">
+            <div class="card-body">
+              <h3>${p.name}</h3>
+              <p class="price">${p.price.toLocaleString()} đ</p>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    loadProducts();
+  </script>
+</body>
+</html>
